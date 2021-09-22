@@ -1370,7 +1370,7 @@ class Zappa:
         if not layers:
             layers = []
 
-        self.wait_until_lambda_function_is_ready(function_name=function_name)
+        self.wait_until_lambda_function_is_ready(function_name)
 
         # Check if there are any remote aws lambda env vars so they don't get trashed.
         # https://github.com/Miserlou/Zappa/issues/987,  Related: https://github.com/Miserlou/Zappa/issues/765
