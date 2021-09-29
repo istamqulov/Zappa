@@ -1140,7 +1140,7 @@ class ZappaCLI:
         if docker_image_uri:
             kwargs["docker_image_uri"] = docker_image_uri
             self.lambda_arn = self.zappa.update_lambda_function(**kwargs)
-            self.zappa.wait_until_lambda_function_is_ready(lambda_arn=self.lambda_arn)
+            self.zappa.wait_until_lambda_function_is_ready(function_name=self.lambda_name)
         elif source_zip and source_zip.startswith("s3://"):
             bucket, key_name = parse_s3_url(source_zip)
             kwargs.update(dict(bucket=bucket, s3_key=key_name))
@@ -1262,7 +1262,7 @@ class ZappaCLI:
 
             if self.stage_config.get("touch", True):
                 self.zappa.wait_until_lambda_function_is_ready(
-                    lambda_arn=self.lambda_arn
+                    function_name=self.lambda_name
                 )
                 if api_url:
                     self.touch_endpoint(api_url)
