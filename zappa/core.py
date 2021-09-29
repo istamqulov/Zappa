@@ -1497,6 +1497,7 @@ class Zappa:
         to be created or update, so we must wait before running any status
         checks against the function.
         """
+        time.sleep(10)
         kwargs = dict(FunctionName="{}:{}".format(lambda_arn, ALB_LAMBDA_ALIAS))
         waiter = self.lambda_client.get_waiter("function_active")
         print(f"Waiting for lambda function [{lambda_arn}] to become active...")
