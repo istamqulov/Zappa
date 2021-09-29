@@ -997,7 +997,7 @@ class ZappaCLI:
 
             if self.stage_config.get("touch", True):
                 self.zappa.wait_until_lambda_function_is_ready(
-                    lambda_arn=self.lambda_arn
+                    function_name=self.lambda_name
                 )
                 self.touch_endpoint(endpoint_url)
 
