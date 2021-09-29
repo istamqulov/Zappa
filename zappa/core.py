@@ -1370,6 +1370,10 @@ class Zappa:
         if not layers:
             layers = []
 
+        # Wait until function is ready, otherwise expected keys will be missing from 'lambda_aws_config'.
+        # https://github.com/zappa/Zappa/issues/1035
+        self.wait_until_lambda_function_is_ready(lambda_arn)
+
         # Check if there are any remote aws lambda env vars so they don't get trashed.
         # https://github.com/Miserlou/Zappa/issues/987,  Related: https://github.com/Miserlou/Zappa/issues/765
         lambda_aws_config = self.lambda_client.get_function_configuration(
@@ -1486,6 +1490,16 @@ class Zappa:
         )  # pragma: no cover
 
         return response["FunctionArn"]
+
+    def is_lambda_function_ready(self, function_name):
+        """
+        Checks if a lambda function is active and no updates are in progress.
+        """
+        response = self.lambda_client.get_function(FunctionName=function_name)
+        return (
+            response["Configuration"]["State"] == "Active"
+            and response["Configuration"]["LastUpdateStatus"] != "InProgress"
+        )
 
     def wait_until_lambda_function_is_ready(self, lambda_arn):
         """
