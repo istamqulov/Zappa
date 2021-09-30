@@ -1366,6 +1366,8 @@ class Zappa:
         if not layers:
             layers = []
 
+        time.sleep(25)
+
         # Check if there are any remote aws lambda env vars so they don't get trashed.
         # https://github.com/Miserlou/Zappa/issues/987,  Related: https://github.com/Miserlou/Zappa/issues/765
         lambda_aws_config = self.lambda_client.get_function_configuration(
